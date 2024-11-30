@@ -1,1 +1,7 @@
-<p>home works!</p>
+<div class="p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-2xl font-bold mb-6">Available Polls</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <app-polling *ngFor="let poll of polls" [poll]="poll"></app-polling>
+    </div>
+  </div>
+  

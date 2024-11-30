@@ -1,1 +1,14 @@
-<p>polling works!</p>
+<div class="p-4 border rounded-lg shadow-md bg-white">
+    <h2 class="text-lg font-bold mb-4">{{ poll.question }}</h2>
+    <ul>
+      <li *ngFor="let option of poll.options" class="mb-2">
+        <button
+          class="w-full p-2 border rounded-md bg-blue-500 text-white hover:bg-blue-700"
+          (click)="vote(option)"
+        >
+          {{ option.text }} - {{ option.votes }} votes
+        </button>
+      </li>
+    </ul>
+  </div>
+  
