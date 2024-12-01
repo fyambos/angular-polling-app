@@ -110,4 +110,10 @@ export class PollService {
         this.snackBar.open('Error deleting poll', 'OK', { duration: 2000 });
       });
   }
+
+  async addPolls(polls: any[]): Promise<void> {
+    const pollsCollection = collection(this.firestore, 'polls');
+    const batch = polls.map((poll) => addDoc(pollsCollection, poll));
+    await Promise.all(batch);
+  }
 }
