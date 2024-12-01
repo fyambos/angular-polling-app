@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc, query, orderBy } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, updateDoc, addDoc, getDoc } from '@angular/fire/firestore';
 import { BehaviorSubject } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+export interface PollOption {
+  text: string;
+  votes: number;
+}
 
 export interface Poll {
   id?: string;
   question: string;
-  options: { text: string; votes: number }[];
+  options: PollOption[];
 }
 
 @Injectable({
@@ -15,26 +21,66 @@ export class PollService {
   private pollsSubject = new BehaviorSubject<Poll[]>([]);
   polls$ = this.pollsSubject.asObservable();
 
-  constructor(private firestore: Firestore,) {
-    this.retrievePolls();
+  constructor(private firestore: Firestore, private snackBar: MatSnackBar) {
+    this.fetchPolls();
   }
 
-  retrievePolls() {
+  // fetch all polls from Firestore
+  fetchPolls(): void {
     const pollsCollection = collection(this.firestore, 'polls');
-    const pollsQuery = query(pollsCollection, orderBy('question'));
-    collectionData(pollsQuery, { idField: 'id' }).subscribe((polls) => {
-      this.pollsSubject.next(
-        polls.map((poll) => ({
-          id: poll['id'],
-          question: poll['question'],
-          options: poll['options'],
-        }))
-      );
+    collectionData(pollsCollection, { idField: 'id' }).subscribe((polls) => {
+      this.pollsSubject.next(polls as Poll[]);
     });
   }
 
+  // add new poll to Firestore
   async addPoll(poll: Poll): Promise<void> {
-    const pollsCollection = collection(this.firestore, 'polls');
-    await addDoc(pollsCollection, poll);
+    const pollsCollectionRef = collection(this.firestore, 'polls');
+    try {
+      // add a new poll to the collection
+      await addDoc(pollsCollectionRef, poll);
+      console.log("Poll added successfully:", poll);
+    } catch (error) {
+      console.error('Error adding poll:', error);
+    }
+  }
+
+  // register a vote on a poll
+  async voteOnPoll(pollId: string, optionIndex: number): Promise<void> {
+    try {
+      const pollDocRef = doc(this.firestore, `polls/${pollId}`);
+      
+      // retrieve the poll from Firestore
+      const pollSnapshot = await getDoc(pollDocRef);  // get the poll data
+      if (!pollSnapshot.exists()) {
+        console.error('Poll not found!');
+        this.snackBar.open('Poll not found.', 'OK', { duration: 2000 });
+        return;
+      }
+
+      const pollData = pollSnapshot.data();  // poll data fetched
+      const options = pollData?.['options'];  // get options from poll data
+      console.log('Poll options before vote:', options);
+
+      // ensure options exist and the option index is valid
+      if (!options || optionIndex < 0 || optionIndex >= options.length) {
+        console.error('Invalid option index!');
+        this.snackBar.open('Invalid option selected.', 'OK', { duration: 2000 });
+        return;
+      }
+
+      // increment the vote count for the selected option
+      options[optionIndex].votes++;
+      console.log('Poll options after vote:', options);
+
+      // update the poll document in Firestore
+      await updateDoc(pollDocRef, {
+        options: options, // update options array with the incremented vote
+      });
+      this.snackBar.open('Vote registered!', 'OK', { duration: 2000 });
+    } catch (error) {
+      console.error('Error voting on poll:', error);
+      this.snackBar.open('Failed to register vote. Please try again.', 'OK', { duration: 3000 });
+    }
   }
 }

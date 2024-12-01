@@ -9,8 +9,14 @@
     + Create Poll
   </button>
   <div *ngIf="polls.length > 0; else noPolls" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <app-polling *ngFor="let poll of polls" [poll]="poll"></app-polling>
+    <app-polling 
+    *ngFor="let poll of polls" 
+    [poll]="poll" 
+    [pollId]="poll.id || ''" 
+  ></app-polling>
   </div>
+
+  <!-- No Polls Message -->
   <ng-template #noPolls>
     <p class="text-gray-500">No polls available. Click "Create Poll" to add one!</p>
   </ng-template>

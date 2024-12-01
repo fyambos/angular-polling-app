@@ -1,5 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { PollService } from '../../services/poll.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-polling',
@@ -9,15 +10,22 @@ import { Component, Input } from '@angular/core';
 })
 export class PollingComponent {
   @Input() poll: any;
-
+  @Input() pollId!: string;
   hasVoted = false;
 
-  vote(option: any) {
-    if (this.hasVoted) {
-      alert('You have already voted on this poll.');
-      return;
-    }
-    option.votes += 1;
-    this.hasVoted = true;
+  constructor(private pollService: PollService) {}
+
+vote(optionIndex: number) {
+  if (this.hasVoted) {
+    alert('You have already voted on this poll.');
+    return;
   }
+
+  console.log('Voting for pollId:', this.pollId);
+  console.log('Option Index:', optionIndex);
+
+  this.pollService.voteOnPoll(this.pollId, optionIndex);
+  this.hasVoted = true;
+}
+
 }
