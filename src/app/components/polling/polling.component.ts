@@ -1,17 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-polling',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
-  templateUrl: './polling.component.html'
+  imports: [CommonModule],
+  templateUrl: './polling.component.html',
 })
 export class PollingComponent {
   @Input() poll: any;
 
+  hasVoted = false;
+
   vote(option: any) {
+    if (this.hasVoted) {
+      alert('You have already voted on this poll.');
+      return;
+    }
     option.votes += 1;
+    this.hasVoted = true;
   }
 }
