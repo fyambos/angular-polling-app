@@ -1,50 +1,32 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { MOCK_POLLS } from '../../mock-polls';
-import { PollingComponent } from '../../components/polling/polling.component';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { PollService, Poll } from '../../services/poll.service';
+import { PollingComponent } from '../../components/polling/polling.component';
 import { FormsModule } from '@angular/forms';
+import { CreatePollDialogComponent } from '../../components/create-poll-dialog/create-poll-dialog.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet, PollingComponent, CommonModule, FormsModule],
-  templateUrl: './home.component.html'
+  imports: [CommonModule, PollingComponent, FormsModule],
+  templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  polls = MOCK_POLLS;
-  newPoll: { 
-    id: number;
-    question: string;
-    options: {
-      text: string;
-      votes: number
-    }[] } = {
-      id: 0,
-      question: '',
-      options: []
-    };
-  optionsInput = '';
-  isCreatePollModalVisible = false;
+  polls: Poll[] = [];
 
-  showCreatePollModal() {
-    this.isCreatePollModalVisible = true;
-    this.newPoll = { id: this.polls.length + 1, question: '', options: [] };
-    this.optionsInput = '';
+  constructor(private pollService: PollService, private dialog: MatDialog) {
+    this.pollService.polls$.subscribe((polls) => {
+      this.polls = polls;
+    });
   }
 
-  closeCreatePollModal() {
-    this.isCreatePollModalVisible = false;
-  }
-
-  createPoll() {
-    this.newPoll.options = this.optionsInput.split(',').map((option) => ({
-      text: option.trim(),
-      votes: 0,
-    }));
-
-    this.polls.push({ ...this.newPoll });
-
-    this.closeCreatePollModal();
+  openCreatePollDialog() {
+    const dialogRef = this.dialog.open(CreatePollDialogComponent);
+    dialogRef.afterClosed().subscribe((result: Poll | null) => {
+      if (result) {
+        this.pollService.addPoll(result);
+      }
+    });
   }
 }

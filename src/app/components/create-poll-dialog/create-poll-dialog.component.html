@@ -1,0 +1,60 @@
+<div class="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Create a New Poll</h2>
+  
+    <!-- Question Input -->
+    <div class="mb-6">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Question</mat-label>
+        <input matInput [(ngModel)]="question" />
+      </mat-form-field>
+    </div>
+  
+    <!-- Options List -->
+    <div class="mb-6">
+      <h4 class="text-lg font-semibold mb-2 text-gray-700">Options</h4>
+      <div *ngFor="let option of options; let i = index" class="flex items-center justify-between bg-gray-100 px-4 py-2 rounded-lg mb-2">
+        <span class="text-gray-700">{{ option }}</span>
+        <button mat-icon-button color="warn" (click)="removeOption(i)" class="text-red-500 hover:text-red-700">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  
+    <!-- Add Option Input -->
+    <div class="mb-6">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Add Option</mat-label>
+        <input matInput [(ngModel)]="optionInput" />
+      </mat-form-field>
+      <button
+        mat-raised-button
+        (click)="addOption()"
+        [disabled]="!optionInput || options.length >= 4"
+        class="mt-2 bg-blue-500 text-white hover:bg-blue-600 disabled:bg-blue-200"
+      >
+        Add Option
+      </button>
+    </div>
+  
+    <!-- Action Buttons -->
+    <div class="flex justify-end gap-4">
+      <button
+        mat-button
+        color="warn"
+        (click)="cancel()"
+        class="text-gray-700 border border-gray-300 hover:bg-gray-100"
+      >
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="createPoll()"
+        [disabled]="!question || options.length < 2"
+        class="bg-green-500 text-white hover:bg-green-600 disabled:bg-green-200"
+      >
+        Create
+      </button>
+    </div>
+  </div>
+  

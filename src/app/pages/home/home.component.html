@@ -1,57 +1,17 @@
 <div class="p-6 bg-gray-100 min-h-screen">
   <h1 class="text-2xl font-bold mb-6">Available Polls</h1>
   <button
-    class="p-2 bg-green-500 text-white rounded-md hover:bg-green-700 mb-4"
-    (click)="showCreatePollModal()"
+    mat-raised-button
+    color="primary"
+    class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 mb-4"
+    (click)="openCreatePollDialog()"
   >
     + Create Poll
   </button>
-  <div
-    *ngIf="isCreatePollModalVisible"
-    class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center"
-  >
-    <div class="bg-white p-6 rounded-md shadow-md w-96">
-      <h2 class="text-lg font-bold mb-4">Create a New Poll</h2>
-      <form (ngSubmit)="createPoll()">
-        <label class="block mb-2">
-          Question:
-          <input
-            type="text"
-            [(ngModel)]="newPoll.question"
-            name="question"
-            class="p-2 border rounded-md w-full"
-            required
-          />
-        </label>
-        <label class="block mb-2">
-          Options (comma-separated):
-          <input
-            type="text"
-            [(ngModel)]="optionsInput"
-            name="options"
-            class="p-2 border rounded-md w-full"
-            required
-          />
-        </label>
-        <div class="flex justify-end gap-4 mt-4">
-          <button
-            type="button"
-            class="p-2 bg-gray-300 rounded-md hover:bg-gray-400"
-            (click)="closeCreatePollModal()"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
-          >
-            Create
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div *ngIf="polls.length > 0; else noPolls" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <app-polling *ngFor="let poll of polls" [poll]="poll"></app-polling>
   </div>
+  <ng-template #noPolls>
+    <p class="text-gray-500">No polls available. Click "Create Poll" to add one!</p>
+  </ng-template>
 </div>
