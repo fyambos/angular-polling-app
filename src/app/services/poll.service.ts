@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, updateDoc, addDoc, getDoc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, updateDoc, addDoc, getDoc, deleteDoc } from '@angular/fire/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -60,7 +60,6 @@ export class PollService {
 
       const pollData = pollSnapshot.data();  // poll data fetched
       const options = pollData?.['options'];  // get options from poll data
-      console.log('Poll options before vote:', options);
 
       // ensure options exist and the option index is valid
       if (!options || optionIndex < 0 || optionIndex >= options.length) {
@@ -71,7 +70,6 @@ export class PollService {
 
       // increment the vote count for the selected option
       options[optionIndex].votes++;
-      console.log('Poll options after vote:', options);
 
       // update the poll document in Firestore
       await updateDoc(pollDocRef, {
@@ -82,5 +80,28 @@ export class PollService {
       console.error('Error voting on poll:', error);
       this.snackBar.open('Failed to register vote. Please try again.', 'OK', { duration: 3000 });
     }
+  }
+
+  async updatePoll(pollId: string, updatedPoll: Poll): Promise<void> {
+    const pollDocRef = doc(this.firestore, `polls/${pollId}`);
+    await updateDoc(pollDocRef, {
+      question: updatedPoll.question,
+      options: updatedPoll.options,
+    });
+
+    this.snackBar.open('Poll updated!', 'OK', { duration: 2000 });
+  }
+
+  deletePoll(pollId: string) {
+    const pollDocRef = doc(this.firestore, `polls/${pollId}`);
+    deleteDoc(pollDocRef)
+      .then(() => {
+        console.log('Poll deleted successfully!');
+        this.snackBar.open('Poll deleted', 'OK', { duration: 2000 });
+      })
+      .catch((error) => {
+        console.error('Error deleting poll: ', error);
+        this.snackBar.open('Error deleting poll', 'OK', { duration: 2000 });
+      });
   }
 }

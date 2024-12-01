@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+// create-poll-dialog.component.ts
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +19,15 @@ export class CreatePollDialogComponent {
   options: string[] = [];
   optionInput = '';
 
-  constructor(public dialogRef: MatDialogRef<CreatePollDialogComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<CreatePollDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    if (data) {
+      this.question = data.question;
+      this.options = data.options || [];
+    }
+  }
 
   addOption() {
     if (this.optionInput && this.options.length < 4) {
