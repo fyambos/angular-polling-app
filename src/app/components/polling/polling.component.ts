@@ -57,4 +57,16 @@ export class PollingComponent {
   deletePoll() {
     this.pollService.deletePoll(this.poll.id); 
   }
+
+  getVotePercentage(optionIndex: number): number {
+    const totalVotes = this.poll.options.reduce((sum: number, option: any) => sum + option.votes, 0);
+    const optionVotes = this.poll.options[optionIndex]?.votes || 0;
+    return totalVotes > 0 ? parseFloat(((optionVotes / totalVotes) * 100).toFixed(1)) : 0;
+  }
+
+  getVotePercentageColor(optionIndex: number): string {
+    const percentage = this.getVotePercentage(optionIndex);
+    return `linear-gradient(to right, #3b82f6 ${percentage}%, #d1d5db ${percentage}%)`; // Tailwind colors: blue-500 and gray-400
+  }
+
 }
