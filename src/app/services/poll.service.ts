@@ -1,3 +1,4 @@
+//poll.service.ts
 import { Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, doc, updateDoc, addDoc, getDoc, deleteDoc } from '@angular/fire/firestore';
 import { BehaviorSubject } from 'rxjs';
@@ -99,7 +100,7 @@ export class PollService {
         console.log('Poll deleted successfully!');
         this.snackBar.open('Poll deleted', 'OK', { duration: 2000 });
       })
-      .catch((error) => {
+      .catch((error) => {   
         console.error('Error deleting poll: ', error);
         this.snackBar.open('Error deleting poll', 'OK', { duration: 2000 });
       });

@@ -4,15 +4,12 @@
   <ul>
     <li *ngFor="let option of poll.options; let i = index" class="mb-2">
       <button
-        class="w-full p-2 border rounded-md bg-blue-500 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        class="w-full p-2 border rounded-md bg-blue-500 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         [disabled]="hasVoted"
         (click)="vote(i)"
-        [style.background]="hasVoted ? getVotePercentageColor(i) : 'bg-blue-500'"
+        [style.background]="hasVoted ? getVotePercentageColor(i) : 'bg-blue-500 text-blue-500'"
       >
-        <!-- Option text only if the user has not voted -->
         <span>{{ option.text }}</span>
-        
-        <!-- Display votes and percentage only after voting -->
         <ng-container *ngIf="hasVoted">
           <span class="ml-2">- {{ option.votes }} votes ({{ getVotePercentage(i) }}%)</span>
         </ng-container>
