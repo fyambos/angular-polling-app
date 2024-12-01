@@ -1,4 +1,3 @@
-// create-poll-dialog.component.ts
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -18,12 +17,14 @@ export class CreatePollDialogComponent {
   question = '';
   options: string[] = [];
   optionInput = '';
+  isEditMode = false;
 
   constructor(
     public dialogRef: MatDialogRef<CreatePollDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     if (data) {
+      this.isEditMode = true; 
       this.question = data.question;
       this.options = data.options || [];
     }
@@ -43,6 +44,12 @@ export class CreatePollDialogComponent {
   createPoll() {
     if (this.question && this.options.length >= 2) {
       this.dialogRef.close({ question: this.question, options: this.options.map((text) => ({ text, votes: 0 })) });
+    }
+  }
+
+  updatePoll() {
+    if (this.question && this.options.length >= 2) {
+      this.dialogRef.close({ question: this.question, options: this.options });
     }
   }
 

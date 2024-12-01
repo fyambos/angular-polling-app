@@ -1,5 +1,5 @@
 <div class="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800">Create a New Poll</h2>
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">{{ isEditMode ? 'Edit Poll' : 'Create a New Poll' }}</h2>
   
     <!-- Question Input -->
     <div class="mb-6">
@@ -48,12 +48,12 @@
       </button>
       <button
         mat-raised-button
-        color="primary"
-        (click)="createPoll()"
+        [color]="isEditMode ? 'accent' : 'primary'"
+        (click)="isEditMode ? updatePoll() : createPoll()"
         [disabled]="!question || options.length < 2"
         class="bg-green-500 text-white hover:bg-green-600 disabled:bg-green-200"
       >
-        Create
+        {{ isEditMode ? 'Update' : 'Create' }}
       </button>
     </div>
   </div>
