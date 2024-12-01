@@ -1,0 +1,21 @@
+<div class="profile-container flex flex-col items-center p-6 bg-gray-100 min-h-screen">
+    <h2 class="text-2xl font-semibold mb-4">Update Profile</h2>
+    <form (ngSubmit)="updateProfile()" class="space-y-4 w-full max-w-md">
+      <input
+        type="text"
+        [(ngModel)]="nickname"
+        name="nickname"
+        placeholder="Enter your nickname"
+        required
+        class="w-full p-2 border rounded-lg"
+      />
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+      >
+        Update Profile
+      </button>
+      <p *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</p>
+    </form>
+  </div>
+  

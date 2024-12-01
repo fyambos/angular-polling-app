@@ -4,6 +4,7 @@ import { PollingComponent } from './components/polling/polling.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { UploadPollsComponent } from './components/upload-polls/upload-polls.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -12,4 +13,5 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'upload', component: UploadPollsComponent },
+    { path: 'profile', component: ProfileComponent },
   ];
