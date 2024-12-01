@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreatePollDialogComponent } from '../create-poll-dialog/create-poll-dialog.component'; // Import dialog component
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'; // Import ConfirmDialogComponent
 
 @Component({
   selector: 'app-polling',
@@ -43,6 +44,16 @@ export class PollingComponent {
       }
     });
   }
+  openDeleteDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deletePoll(); 
+      }
+    });
+  }
+
   deletePoll() {
     this.pollService.deletePoll(this.poll.id); 
   }
