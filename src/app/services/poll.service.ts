@@ -85,13 +85,18 @@ export class PollService {
 
   async updatePoll(pollId: string, updatedPoll: Poll): Promise<void> {
     const pollDocRef = doc(this.firestore, `polls/${pollId}`);
-    await updateDoc(pollDocRef, {
-      question: updatedPoll.question,
-      options: updatedPoll.options,
-    });
-
-    this.snackBar.open('Poll updated!', 'OK', { duration: 2000 });
+    try {
+      await updateDoc(pollDocRef, {
+        question: updatedPoll.question,
+        options: updatedPoll.options,
+      });
+      this.snackBar.open('Poll updated!', 'OK', { duration: 2000 });
+    } catch (error) {
+      console.error('Error updating poll:', error);
+      this.snackBar.open('Failed to update poll. Please try again.', 'OK', { duration: 3000 });
+    }
   }
+  
 
   deletePoll(pollId: string) {
     const pollDocRef = doc(this.firestore, `polls/${pollId}`);

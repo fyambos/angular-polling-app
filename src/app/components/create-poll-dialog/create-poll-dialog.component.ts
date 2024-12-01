@@ -50,10 +50,12 @@ export class CreatePollDialogComponent {
 
   updatePoll() {
     if (this.question && this.options.length >= 2) {
-      this.dialogRef.close({ question: this.question, options: this.options });
+      this.dialogRef.close({
+        question: this.question,
+        options: this.options.map((text) => ({ text, votes: 0 })), 
+      });
     }
   }
-
   cancel() {
     this.dialogRef.close(null);
   }
