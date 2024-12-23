@@ -1,27 +1,84 @@
-# PollingApp
+# Polling App
+A simple polling application where users can create polls, vote on them, and edit or delete polls. This app uses Angular for the front-end and Firebase for data storage.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.11.
+## Features
+* **Create Polls**: Users can create polls with multiple options.
+* **Vote on Polls**: Users can vote on available polls and see the results.
+* **Edit Polls**: Poll creators can edit the question or options of an existing poll.
+* **Delete Polls**: Poll creators can delete their polls.
+* **Filter Polls**: Users can filter available polls by category.
+## Technologies Used
+**Angular**: Frontend framework for building the application.
+**Firebase**: Cloud database for storing poll data.
+**Material Design**: UI components for a modern and clean design.
+**TailwindCSS**: Utility-first CSS framework for styling.
+## Getting Started
+### Prerequisites
+Make sure you have the following installed on your machine:
 
-## Development server
+* Node.js (LTS version)
+* Angular CLI globally installed: npm install -g @angular/cli
+* Firebase account
+### Setup Instructions
+1. Clone the repository:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```bash
+git clone https://github.com/fyambos/angular-polling-app.git
+cd polling-app
+```
+2. Install dependencies:
 
-## Code scaffolding
+```bash
+npm install
+```
+3. Set up Firebase:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+    * Create a Firebase project in the Firebase console.
+    * Get your Firebase project configuration from the console.
+    * Create a file src/environments/env.dev.ts and add your Firebase configuration:
+```typescript
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID",
+  },
+};
+```
+4. Start the app:
 
-## Build
+```bash
+ng serve
+```
+The app should now be running at http://localhost:4200.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Features Walkthrough
+1. Creating a Poll
+    * Click on "Create Poll" to open the poll creation dialog.
+    * Add a question and at least two options for the poll.
+    * Once the poll is created, it will be added to the list of available polls.
+2. Voting on a Poll
+    * When viewing a poll, select an option to vote for it.
+    * After voting, you will see the total number of votes and the percentage for each option.
+3. Editing a Poll
+    * Only the poll creator can edit a poll.
+    * Click the "Edit" button to modify the question or options.
+    * You can update the options and save the changes.
+4. Deleting a Poll
+    * Poll creators can delete their polls by clicking the "Delete" button.
+5. Filtering Polls by Category
+    * Use the filter dropdown to view polls by category.
 
-## Running unit tests
+## Contributing
+* Fork the repository.
+* Create your feature branch (git checkout -b feature/your-feature).
+* Commit your changes (git commit -am 'Add some feature').
+* Push to the branch (git push origin feature/your-feature).
+* Create a new Pull Request.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
