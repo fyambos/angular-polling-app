@@ -1,18 +1,19 @@
 # Polling App
 A simple polling application where users can create polls, vote on them, and edit or delete polls. This app uses Angular for the front-end and Firebase for data storage.
 
-## Features
+## ✨ Features
 * **Create Polls**: Users can create polls with multiple options.
 * **Vote on Polls**: Users can vote on available polls and see the results.
 * **Edit Polls**: Poll creators can edit the question or options of an existing poll.
 * **Delete Polls**: Poll creators can delete their polls.
 * **Filter Polls**: Users can filter available polls by category.
-## Technologies Used
+
+## 🛠 Technologies Used
 **Angular**: Frontend framework for building the application.
 **Firebase**: Cloud database for storing poll data.
 **Material Design**: UI components for a modern and clean design.
 **TailwindCSS**: Utility-first CSS framework for styling.
-## Getting Started
+## 🚀 Getting Started
 ### Prerequisites
 Make sure you have the following installed on your machine:
 
@@ -56,7 +57,7 @@ ng serve
 ```
 The app should now be running at http://localhost:4200.
 
-## Features Walkthrough
+## 📋 Features Walkthrough
 1. Creating a Poll
     * Click on "Create Poll" to open the poll creation dialog.
     * Add a question and at least two options for the poll.
@@ -73,12 +74,12 @@ The app should now be running at http://localhost:4200.
 5. Filtering Polls by Category
     * Use the filter dropdown to view polls by category.
 
-## Contributing
+## 🤝 Contributing
 * Fork the repository.
 * Create your feature branch (git checkout -b feature/your-feature).
 * Commit your changes (git commit -am 'Add some feature').
 * Push to the branch (git push origin feature/your-feature).
 * Create a new Pull Request.
 
-## License
+## 📜 License
 This project is licensed under the MIT License - see the LICENSE file for details.
